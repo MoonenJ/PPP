@@ -33,10 +33,24 @@
                 _ => AddWater());
 
             // Step2()
-            DiceTheMeat(Ingredients.Meat);
-            AddSomeSpices();
-            CutAndCleanTheChilies();
-            CookThePot(2400);
+            //DiceTheMeat(Ingredients.Meat);
+            //AddSomeSpices();
+            //CutAndCleanTheChilies();
+            //CookThePot(2400);
+
+            Task diceTheMeat = Task.Factory.StartNew(
+                () => DiceTheMeat(Ingredients.Meat));
+
+            Task addSomeSpices = Task.Factory.StartNew(
+                () => AddSomeSpices());
+
+            Task cutAndCleanTheChilies = Task.Factory.StartNew(
+                () => CutAndCleanTheChilies());
+
+            Task cook1 = Task.Factory.ContinueWhenAll(
+                new[] { addWater, diceTheMeat, addSomeSpices, cutAndCleanTheChilies },
+                _ => CookThePot(2400));
+
 
             // Step3()
             PeelAndDice(Ingredients.Potatoes);
