@@ -15,10 +15,22 @@
         private static void MakeGoulashParallel()
         {
             // Step1()
-            PeelAndDice(Ingredients.Onions);
-            FryTheOnion();
-            SprinklePaprika();
-            AddWater();
+            //PeelAndDice(Ingredients.Onions);
+            //FryTheOnion();
+            //SprinklePaprika();
+            //AddWater();
+
+            Task peelAndDiceOnions = Task.Factory.StartNew(
+                ()=> PeelAndDice(Ingredients.Onions));
+
+            Task fryTheOnion = peelAndDiceOnions.ContinueWith(
+                _ => FryTheOnion());
+            
+            Task sprinklePaprika = fryTheOnion.ContinueWith(
+                _ => SprinklePaprika());
+            
+            Task addWater = sprinklePaprika.ContinueWith(
+                _ => AddWater());
 
             // Step2()
             DiceTheMeat(Ingredients.Meat);
