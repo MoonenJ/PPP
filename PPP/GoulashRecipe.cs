@@ -1,5 +1,4 @@
-﻿#define Sequencial
-namespace PPP
+﻿namespace PPP
 {
     using System.Threading.Tasks;
     using System.Diagnostics;
@@ -9,14 +8,9 @@ namespace PPP
 
         internal static void MakeGoulash()
         {
-#if Sequencial
             MakeGoulashSequencial();
-#else
-            MakeGoulashParallel();
-#endif
 
         }
-        [Conditional("Sequencial")]
         private static void MakeGoulashSequencial()
         {
 
