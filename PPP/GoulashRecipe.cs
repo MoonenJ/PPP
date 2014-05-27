@@ -8,44 +8,8 @@
 
         internal static void MakeGoulash()
         {
-            MakeGoulashSequencial();
+            MakeGoulashParallel();
 
-        }
-        private static void MakeGoulashSequencial()
-        {
-
-            Step1();
-            Step2();
-            Step3();
-            Step4();
-        }
-
-        private static void Step1()
-        {
-            PeelAndDice(Ingredients.Onions);
-            FryTheOnion();
-            SprinklePaprika();
-            AddWater();
-        }
-
-        private static void Step2()
-        {
-            DiceTheMeat(Ingredients.Meat);
-            AddSomeSpices();
-            CutAndCleanTheChilies();
-            CookThePot(2400);
-        }
-
-        private static void Step3()
-        {
-            PeelAndDice(Ingredients.Potatoes);
-            CookThePot(600);
-        }
-
-        private static void Step4()
-        {
-            CutThePeppers();
-            CookThePot(300);
         }
 
         private static void MakeGoulashParallel()
