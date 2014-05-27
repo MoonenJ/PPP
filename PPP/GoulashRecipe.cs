@@ -53,14 +53,25 @@
 
 
             // Step3()
-            PeelAndDice(Ingredients.Potatoes);
-            CookThePot(600);
+            //PeelAndDice(Ingredients.Potatoes);
+            //CookThePot(600);
+
+            Task peelAndCutPotatoes = Task.Factory.StartNew(
+                () => PeelAndDice(Ingredients.Potatoes));
+
+            Task cook2 = Task.Factory.ContinueWhenAll(new[] { cook1, peelAndCutPotatoes },
+                _ => CookThePot(600));
 
             // Step4()
-            CutThePeppers();
-            CookThePot(300);
+            //CutThePeppers();
+            //CookThePot(300);
+
+            Task cutThePeppers = Task.Factory.StartNew(() => CutThePeppers());
+            Task finalStep = Task.Factory.ContinueWhenAll(new[] { cook2, cutThePeppers },
+                _ => CookThePot(300));
         
             // Done!
+            finalStep.Wait();
         }
 
         private static void PeelAndDice(Ingredient[] ingredients)
