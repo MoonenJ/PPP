@@ -82,7 +82,18 @@
 
 
             // Todo: Step 1 use a loop
-            Utils.DoWork("Peel And Dice " + ingredientName, 120 * ingredients.Length);
+            // Utils.DoWork("Peel And Dice " + ingredientName, 120 * ingredients.Length);
+
+            //for (int i = 0; i < ingredients.Length; i++)
+            //{
+            //    Utils.DoWork("Peel And Dice " + ingredientName, 120);
+            //}
+
+            // Then parallelize it.
+            Parallel.For(0, ingredients.Length, i =>
+            {
+                Utils.DoWork(string.Format("Peel And Dice {0} {1}", ingredientName, i), 120);
+            });
         }
 
         private static string Peel(string ingredient)
