@@ -92,7 +92,10 @@
             // Then parallelize it.
             Parallel.For(0, ingredients.Length, i =>
             {
-                Utils.DoWork(string.Format("Peel And Dice {0} {1}", ingredientName, i), 120);
+                Task.Factory.StartNew(
+                    () => Peel(ingredientName)).ContinueWith(
+                    peeled => Dice(peeled.Result), TaskContinuationOptions.AttachedToParent);
+                //Utils.DoWork(string.Format("Peel And Dice {0} {1}", ingredientName, i), 120);
             });
         }
 
