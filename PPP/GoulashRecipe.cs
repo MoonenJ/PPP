@@ -76,13 +76,13 @@
 
         private static void PeelAndDice(Ingredient[] ingredients)
         {
-            string what = ingredients.GetType().ToString();
-            int point = what.IndexOf('.') + 1;
-            what = what.Substring(point, what.IndexOf('[') - point);
+            string ingredientName = ingredients.GetType().ToString();
+            int dotPosition = ingredientName.LastIndexOf('.') + 1;
+            ingredientName = ingredientName.Substring(dotPosition, ingredientName.IndexOf('[') - dotPosition);
 
 
             // Todo: Step 1 use a loop
-            Utils.DoWork("Peel And Dice " + what, 120 * ingredients.Length);
+            Utils.DoWork("Peel And Dice " + ingredientName, 120 * ingredients.Length);
         }
 
         private static string Peel(string ingredient)
