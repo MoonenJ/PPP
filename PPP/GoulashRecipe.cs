@@ -110,10 +110,10 @@
 
         private static void DiceTheMeat(Meat[] meat)
         {
-            Utils.DoWork("Chop The Meat", 20 * meat.Length);
+            //Utils.DoWork("Chop The Meat", 20 * meat.Length);
 
             // Todo: Step 2 make it recursive
-            //CutTheMeatInHalf(0, meat.Length);
+            CutTheMeatInHalf(0, meat.Length);
         }
 
         public static void CutTheMeatInHalf(int start, int length)
@@ -124,8 +124,9 @@
                 int half = length / 2;
                 int correction = length % 2;
 
-                CutTheMeatInHalf(start, half);
-                CutTheMeatInHalf(start + half, half + correction);
+                Parallel.Invoke(
+                    ()=>CutTheMeatInHalf(start, half),
+                    ()=>CutTheMeatInHalf(start + half, half + correction));
             }
         }
 
