@@ -4,11 +4,13 @@ Imports System.Diagnostics
 
 Class GoulashRecipe
 
-    Public Shared _parallelPeelAndDice As Boolean
+    Public Shared ParallelPeelAndDice As Boolean
+    Public Shared PeelAndDiceAdvanced As Boolean
+    Public Shared ParallelCutTheMeat As Boolean
 
     Public Shared Sub PeelAndDice(ingredients As Ingredient())
-        If _parallelPeelAndDice Then
-            PeelAndDiceSequential(ingredients)
+        If ParallelPeelAndDice Then
+            PeelAndDiceParallel(ingredients)
         Else
             PeelAndDiceSequential(ingredients)
         End If
@@ -24,6 +26,21 @@ Class GoulashRecipe
         Next
     End Sub
 
+    Public Shared Sub PeelAndDiceParallel(ingredients As Ingredient())
+        Dim ingredientName As String = ingredients.[GetType]().ToString()
+        Dim dotPosition As Integer = ingredientName.LastIndexOf("."c) + 1
+        ingredientName = ingredientName.Substring(dotPosition, ingredientName.IndexOf("["c) - dotPosition)
+
+        'parallel invoke
+        Parallel.[For](0, ingredients.Length, Sub(i)
+                                                  If PeelAndDiceAdvanced Then
+                                                      Task.Factory.StartNew(Function() Peel(ingredientName)).ContinueWith(Function(peeled) Dice(peeled.Result), TaskContinuationOptions.AttachedToParent)
+                                                  Else
+                                                      Utils.DoWork(String.Format("Peel And Dice {0} {1}", ingredientName, i), 120)
+                                                  End If
+                                              End Sub)
+    End Sub
+
     Public Shared Function Peel(ingredient As String) As String
         Utils.DoWork(Convert.ToString("Peel ") & ingredient, 60)
         Return ingredient
@@ -34,30 +51,20 @@ Class GoulashRecipe
         Return ingredient
     End Function
 
-    Public Shared Sub PeelAndDiceParallel(ingredients As Ingredient())
-        Dim ingredientName As String = ingredients.[GetType]().ToString()
-        Dim dotPosition As Integer = ingredientName.LastIndexOf("."c) + 1
-        ingredientName = ingredientName.Substring(dotPosition, ingredientName.IndexOf("["c) - dotPosition)
-
-
-        ' Todo: Step 1 use a loop
-        ' Utils.DoWork("Peel And Dice " + ingredientName, 120 * ingredients.Length);
-
-        'for (int i = 0; i < ingredients.Length; i++)
-        '{
-        '    Utils.DoWork("Peel And Dice " + ingredientName, 120);
-        '}
-
-        ' Then parallelize it.
-        Parallel.[For](0, ingredients.Length, Sub(i)
-                                                  'Utils.DoWork(string.Format("Peel And Dice {0} {1}", ingredientName, i), 120);
-                                                  Task.Factory.StartNew(Function() Peel(ingredientName)).ContinueWith(Function(peeled) Dice(peeled.Result), TaskContinuationOptions.AttachedToParent)
-
-                                              End Sub)
+    Public Shared Sub DiceTheMeat(meat As Meat())
+        If ParallelCutTheMeat Then
+            DiceTheMeatParallel(meat)
+        Else
+            DiceTheMeatSequential(meat)
+        End If
     End Sub
 
-    Public Shared Sub DiceTheMeat(meat As Meat())
-        CutTheMeatInHalf(0, meat.Length)
+    Public Shared Sub DiceTheMeatSequential(meat As Meat())
+        Utils.DoWork("Chop The Meat", 20 * Meat.Length)
+    End Sub
+
+    Public Shared Sub DiceTheMeatParallel(meat As Meat())
+        CutTheMeatInHalf(0, Meat.Length)
     End Sub
 
     Public Shared Sub CutTheMeatInHalf(start As Integer, length As Integer)

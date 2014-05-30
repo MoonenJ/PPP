@@ -1,5 +1,5 @@
 ﻿Public Class GoulashSequential
-    Public Sub Cook()
+    Public Shared Sub Cook()
 
         GoulashRecipe.PeelAndDice(Ingredients.Onions)
         GoulashRecipe.FryTheOnion()

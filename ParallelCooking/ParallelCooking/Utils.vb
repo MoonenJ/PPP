@@ -4,6 +4,8 @@ NotInheritable Class Utils
     Private Sub New()
     End Sub
 
+    Public Shared SuppressOutput As Boolean
+
     Private Shared ciclesPerSecond As Long = 127659000
     ''' <summary>
     ''' Simulates som CPU Intensive work ad displays a message on the screen
@@ -11,9 +13,13 @@ NotInheritable Class Utils
     ''' <param name="work">What to say to the user</param>
     ''' <param name="seconds">How many "fake" seconds it takes.</param>
     Friend Shared Sub DoWork(work As String, seconds As Integer)
-        Console.WriteLine("Let's {0} for {1} seconds.", work, seconds)
+        If Not SuppressOutput Then
+            Console.WriteLine("Let's {0} for {1} seconds.", work, seconds)
+        End If
         SpinningArround(seconds)
-        Console.WriteLine("We are done with {0}.", work)
+        If Not SuppressOutput Then
+            Console.WriteLine("We are done with {0}.", work)
+        End If
     End Sub
 
     ''' <summary>

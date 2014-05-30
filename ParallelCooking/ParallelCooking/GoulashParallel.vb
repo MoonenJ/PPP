@@ -1,5 +1,5 @@
 ﻿Public Class GoulashParallel
-    Public Sub Cook()
+    Public Shared Sub Cook()
 
         Dim peelAndDiceOnions As Task = Task.Factory.StartNew(Sub() GoulashRecipe.PeelAndDice(Ingredients.Onions))
         Dim fryTheOnion__1 As Task = peelAndDiceOnions.ContinueWith(Sub() GoulashRecipe.FryTheOnion())
@@ -12,6 +12,8 @@
 
         Dim cook1Tasks = New List(Of Task) From {addWater__3, diceTheMeat__4, addSomeSpices__5, cutAndCleanTheChilies__6}
         Dim cook1 As Task = Task.Factory.ContinueWhenAll(cook1Tasks.ToArray, Sub() GoulashRecipe.CookThePot(2400))
+
+        cook1.Wait()
 
         GoulashRecipe.PeelAndDice(Ingredients.Potatoes)
         GoulashRecipe.CookThePot(600)

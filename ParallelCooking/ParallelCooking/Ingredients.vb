@@ -11,6 +11,6 @@ Class Meat
 End Class
 Class Ingredients
     Public Shared Meat As Meat() = New Meat(400) {}
-    Public Shared Potatoes As Potato() = New Potato(9) {}
-    Public Shared Onions As Onion() = New Onion(2) {}
+    Public Shared Potatoes As Potato() = New Potato(80) {}
+    Public Shared Onions As Onion() = New Onion(60) {}
 End Class
