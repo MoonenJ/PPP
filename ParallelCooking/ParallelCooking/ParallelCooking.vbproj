@@ -66,6 +66,11 @@
     <Import Include="System.Threading.Tasks" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GoulashFullParallel.vb" />
+    <Compile Include="GoulashInSteps.vb" />
+    <Compile Include="GoulashParallel.vb" />
+    <Compile Include="GoulashRecipe.vb" />
+    <Compile Include="GoulashSequential.vb" />
     <Compile Include="Ingredients.vb" />
     <Compile Include="Module1.vb" />
     <Compile Include="My Project\AssemblyInfo.vb" />
