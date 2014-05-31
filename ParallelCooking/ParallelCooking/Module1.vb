@@ -11,7 +11,28 @@
 
     Private Sub InStages()
         Dim sw As Stopwatch = Stopwatch.StartNew()
-        'GoulashRecipe.MakeGoulash()
+
+        GoulashSequential.Cook()
+
+        'GoulashInSteps.Cook()
+
+        'GoulashParallel.Cook()
+
+        'GoulashFullParallel.Cook()
+
+        'GoulashRecipe.ParallelPeelAndDice = True
+        'GoulashFullParallel.Cook()
+
+        'GoulashRecipe.ParallelPeelAndDice = True
+        'GoulashRecipe.PeelAndDiceAdvanced = True
+        'GoulashFullParallel.Cook()
+
+        'GoulashRecipe.ParallelPeelAndDice = True
+        'GoulashRecipe.PeelAndDiceAdvanced = True
+        'GoulashRecipe.ParallelCutTheMeat = True
+        'GoulashFullParallel.Cook()
+
+
         Console.WriteLine("We're done in {0} minutes.", sw.ElapsedMilliseconds / 60)
     End Sub
 
